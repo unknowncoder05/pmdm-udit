@@ -26,7 +26,8 @@ obtenido del remoto local. El Gradle Wrapper inicial procede de sha2dev56.
 
 Se omiten archivos de más de 512 KiB en el checkout de referencia. El único archivo
 por encima de ese límite es `foto_perfil.jpg` (701876 bytes); en el proyecto local
-se sustituye por un avatar vectorial. No se incorporan fotos de otras personas,
+se sustituye por la foto propia subida a S3, convertida a JPEG de 137432 bytes.
+El icono propio de S3 ocupa 24784 bytes. No se incorporan fotos de otras personas,
 carpetas `build`, cachés `.gradle`, configuración `.idea` ni rutas SDK personales.
 
 Se usan SDK 35, Java 17, AGP 8.9.2, Gradle 8.12 y Kotlin 2.1.20 para aprovechar el

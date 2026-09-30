@@ -2,7 +2,7 @@
     <string name="app_name">Tarjeta · UDIT</string>
     <string name="profile_name">unknowncoder05</string>
     <string name="profile_role">Estudiante de DAM</string>
-    <string name="profile_image_description">Avatar del perfil</string>
+    <string name="profile_image_description">Foto de perfil de unknowncoder05</string>
     <string name="github_button">Mi perfil de GitHub</string>
     <string name="github_url" translatable="false">https://github.com/unknowncoder05</string>
     <string name="no_browser_available">No hay una aplicación disponible para abrir el enlace.</string>

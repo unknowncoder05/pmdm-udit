@@ -25,10 +25,12 @@ La APK se genera en `reto1-tarjetapresentacion/build/outputs/apk/debug/`.
 
 Edita `reto1-tarjetapresentacion/src/main/res/values/strings.xml` para cambiar
 `profile_name`, `profile_role` y `github_url`. El perfil inicial es `unknowncoder05`,
-obtenido del remoto Git de este repositorio. Sustituye `res/drawable/foto_perfil.xml`
-por una imagen pequeña con el mismo nombre de recurso para añadir una foto propia.
+obtenido del remoto Git de este repositorio. La foto propia está en
+`res/drawable/foto_perfil.jpg` y el icono en `res/drawable/ic_launcher_personal.png`.
+Puedes sustituirlos manteniendo los nombres de recurso y archivos menores de 512 KiB.
 
-La imagen de referencia de 685 KiB se omite; el avatar local es vectorial.
+La imagen de referencia de 685 KiB se omite. La foto subida a S3 se convierte a
+JPEG de 134 KiB, conservando el encuadre, y se incorpora junto al icono personal.
 La pantalla respeta los márgenes del sistema y permite desplazar el contenido en
 pantallas pequeñas. Si no existe una app para abrir GitHub, muestra un aviso.
 
