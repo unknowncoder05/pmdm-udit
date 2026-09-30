@@ -40,3 +40,14 @@ Las otras cuatro referencias quedan descargadas para consulta. No se incorpora
 la plantilla Flutter ni las funciones adicionales de contacto de sha2dev56.
 No se encontró un archivo LICENSE; se documenta la procedencia sin atribuir
 una licencia nueva al código de referencia.
+
+## Historial por funcionalidad
+
+El historial local se agrupa en tres cambios: reconstrucción de la tarjeta Android,
+foto e icono personales, y publicación de la versión de navegador en `/pmdm`.
+Por petición del usuario, las fechas de autor de los dos cambios Android coinciden
+con el commit de referencia `8d2ddda`: `2026-09-30T20:09:19+02:00`.
+Las fechas de confirmación conservan el momento real de la reorganización;
+la publicación web conserva también su fecha de autor real.
+La autoría sigue siendo del perfil local, y la procedencia del código se documenta
+arriba. El historial anterior se conserva en una rama local de respaldo.

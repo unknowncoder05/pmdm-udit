@@ -36,3 +36,25 @@ pantallas pequeñas. Si no existe una app para abrir GitHub, muestra un aviso.
 
 Consulta el [README del reto](reto1-tarjetapresentacion/README.md) y las
 [instrucciones para subir foto y capturas](docs/archivos-personales.md).
+
+## Navegador y despliegue
+
+La versión de navegador de la tarjeta está preparada para
+`https://sandbox.yerson.co/pmdm/`. Usa los mismos textos y avatar que Android;
+el código nativo sigue siendo Kotlin/Compose. No requiere API ni lista de hosts
+en un backend. Nginx sirve archivos estáticos bajo el host existente.
+
+```sh
+python3 scripts/build-web.py
+./scripts/deploy-web.sh
+```
+
+El script añade exclusivamente `/pmdm` y `/pmdm/`, guarda una copia de la
+configuración existente y ejecuta `nginx -t` antes de recargar. La escritura en
+`/etc/nginx` y la recarga necesitan permisos de administrador. La carpeta `dist`
+se regenera desde los recursos Android y no se guarda en Git. Si se ha compilado
+la APK, la página también permite descargarla.
+
+Comprobación visual con Chromium/Playwright instalados:
+`node scripts/check-web.cjs https://sandbox.yerson.co/pmdm/`. Se pueden definir
+`PMDM_PLAYWRIGHT_PATH` y `PMDM_CHROMIUM_PATH` para otra instalación.

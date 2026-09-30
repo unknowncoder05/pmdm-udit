@@ -185,3 +185,7 @@ local.properties
 *.aab
 .externalNativeBuild/
 .cxx/
+
+# Deployment backups
+deploy/backups/
+deploy/*.candidate
