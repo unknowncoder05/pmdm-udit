@@ -19,7 +19,7 @@ Su README también explica los componentes de Compose y la entrega del ejercicio
 
 ## Reconstrucción
 
-Por petición del usuario, solo se reconstruye `reto1-tarjetapresentacion`.
+La reconstrucción inicial se centra en `reto1-tarjetapresentacion`.
 `S02-MiPrimeraApp` queda como referencia descargada. La pantalla, temas y
 recursos pequeños proceden de joscanoav y se adaptan al perfil `unknowncoder05`,
 obtenido del remoto local. El Gradle Wrapper inicial procede de sha2dev56.
@@ -43,7 +43,7 @@ una licencia nueva al código de referencia.
 
 ## Historial por funcionalidad
 
-El historial local se agrupa en tres cambios: reconstrucción de la tarjeta Android,
+El historial del Reto 1 se agrupa en tres cambios: reconstrucción de la tarjeta Android,
 foto e icono personales, y publicación de la versión de navegador en `/pmdm`.
 Por petición del usuario, las fechas de autor de los dos cambios Android coinciden
 con el commit de referencia `8d2ddda`: `2026-09-30T20:09:19+02:00`.
@@ -51,3 +51,20 @@ Las fechas de confirmación conservan el momento real de la reorganización;
 la publicación web conserva también su fecha de autor real.
 La autoría sigue siendo del perfil local, y la procedencia del código se documenta
 arriba. El historial anterior se conserva en una rama local de respaldo.
+
+## Reto 2 · Local Burger
+
+Referencia revisada: `joscanoav/pmdm-udit`, commit
+`6827f389938e65b1249dae61dbb38c7dfbe36a2b` del 14 de octubre de 2026.
+Se consultaron `s4-burgershop/.../MainActivity.kt` y
+`Reto2-ECommerceAdaptativo/Reto2-ECommerceAdaptativo/README.md`.
+Se conservan los patrones de carga de 1,5 segundos, datos locales,
+`LazyVerticalGrid`, `GridCells.Adaptive(250.dp)`, `Card`, `ContentScale.Crop`
+y texto con una línea y puntos suspensivos.
+
+La temática se adapta a la compra de locales de hamburgueserías. El módulo añade
+un filtro de venta/traspaso y un diálogo de compra simulada. Usa las dependencias
+Android ya presentes, sin frameworks ni servicios adicionales. Todos los negocios
+y precios son ficticios; las fotos de Unsplash son ilustrativas y menores de 512 KiB.
+La fecha de autor del cambio se alinea con ese commit de referencia, por la petición
+previa del usuario; la fecha de confirmación registra la implementación real.

@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "pmdm-udit"
 include(":reto1-tarjetapresentacion")
+include(":reto2-locales")

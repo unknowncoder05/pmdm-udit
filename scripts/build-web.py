@@ -58,7 +58,11 @@ apk = ROOT / 'reto1-tarjetapresentacion/build/outputs/apk/debug/reto1-tarjetapre
 apk_link = ''
 if apk.exists():
     shutil.copy2(apk, OUT / 'pmdm-udit.apk')
-    apk_link = '<a class="apk" href="./pmdm-udit.apk" download>Descargar app para Android</a>'
+    apk_link = '<a class="apk" href="./pmdm-udit.apk" download>Descargar Reto 1 para Android</a>'
+marketplace_apk = ROOT / 'reto2-locales/build/outputs/apk/debug/reto2-locales-debug.apk'
+if marketplace_apk.exists():
+    shutil.copy2(marketplace_apk, OUT / 'local-burger.apk')
+    apk_link += '<a class="apk" href="./local-burger.apk" download>Descargar Reto 2 · Local Burger</a>'
 (OUT / 'index.html').write_text(f'''<!doctype html>
 <html lang="es">
 <head>
