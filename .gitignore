@@ -189,3 +189,6 @@ local.properties
 # Deployment backups
 deploy/backups/
 deploy/*.candidate
+
+# Estado local del emulador Android
+.emulator/

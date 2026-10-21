@@ -19,6 +19,11 @@ Usa Kotlin y Jetpack Compose, siguiendo `s4-burgershop` de Jorge Oscanoa.
 La [APK de Local Burger](https://sandbox.yerson.co/pmdm/local-burger.apk) está
 disponible desde la página existente. La app funciona sin conexión y no realiza pagos.
 
+También se puede abrir la APK real en el
+[emulador Android desde el navegador](https://sandbox.yerson.co/pmdm/emulador/).
+El acceso requiere las credenciales locales. Consulta
+[la configuración del emulador](docs/emulador.md).
+
 ## Ejecutar
 
 Abre esta carpeta en Android Studio con JDK 17. Instala Android SDK 35 y

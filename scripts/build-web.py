@@ -80,6 +80,7 @@ if marketplace_apk.exists():
     <h1 id="profile-name">{escape('profile_name')}</h1>
     <p class="role">{escape('profile_role')}</p>
     <a class="github" href="{escape('github_url')}" target="_blank" rel="noopener noreferrer">{escape('github_button')}</a>
+    <a class="apk" href="./emulador/">Abrir Local Burger en el emulador Android</a>
     {apk_link}
   </main>
 </body>

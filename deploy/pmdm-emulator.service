@@ -1,0 +1,18 @@
+[Unit]
+Description=Emulador Android gratuito de PMDM con noVNC
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/Personal/udit/pmdm-udit
+Environment=ANDROID_SDK_ROOT=/home/ubuntu/android-sdk
+ExecStart=/bin/bash /home/ubuntu/Personal/udit/pmdm-udit/scripts/run-emulator.sh
+KillMode=control-group
+TimeoutStopSec=30
+Nice=10
+CPUQuota=150%
+MemoryMax=3G
+
+[Install]
+WantedBy=multi-user.target
