@@ -63,6 +63,10 @@ marketplace_apk = ROOT / 'reto2-locales/build/outputs/apk/debug/reto2-locales-de
 if marketplace_apk.exists():
     shutil.copy2(marketplace_apk, OUT / 'local-burger.apk')
     apk_link += '<a class="apk" href="./local-burger.apk" download>Descargar Reto 2 · Local Burger</a>'
+blocker_apk = ROOT / 'reto3-escudo400/build/outputs/apk/debug/reto3-escudo400-debug.apk'
+if blocker_apk.exists():
+    shutil.copy2(blocker_apk, OUT / 'escudo400.apk')
+    apk_link += '<a class="apk" href="./escudo400.apk" download>Descargar Reto 3 · Escudo 400</a>'
 (OUT / 'index.html').write_text(f'''<!doctype html>
 <html lang="es">
 <head>
@@ -80,7 +84,7 @@ if marketplace_apk.exists():
     <h1 id="profile-name">{escape('profile_name')}</h1>
     <p class="role">{escape('profile_role')}</p>
     <a class="github" href="{escape('github_url')}" target="_blank" rel="noopener noreferrer">{escape('github_button')}</a>
-    <a class="apk" href="./emulador/">Abrir Local Burger en el emulador Android</a>
+    <a class="apk" href="./emulador/">Abrir Escudo 400 en el emulador Android</a>
     {apk_link}
   </main>
 </body>

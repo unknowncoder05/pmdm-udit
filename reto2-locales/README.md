@@ -39,9 +39,8 @@ Para compilar y comprobar el código:
 
 La APK se genera en `reto2-locales/build/outputs/apk/debug/reto2-locales-debug.apk`.
 
-También se puede [descargar la APK](https://sandbox.yerson.co/pmdm/local-burger.apk)
-o abrir la aplicación en el [emulador desde el navegador](https://sandbox.yerson.co/pmdm/emulador/).
-El emulador requiere credenciales de acceso.
+También se puede [descargar la APK](https://sandbox.yerson.co/pmdm/local-burger.apk).
+El emulador compartido ejecuta actualmente el Reto 3; Local Burger queda detenido.
 
 ## Capturas
 

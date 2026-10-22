@@ -10,6 +10,8 @@ Environment=ANDROID_SDK_ROOT=/home/ubuntu/android-sdk
 ExecStart=/bin/bash /home/ubuntu/Personal/udit/pmdm-udit/scripts/run-emulator.sh
 KillMode=control-group
 TimeoutStopSec=30
+Restart=on-failure
+RestartSec=5
 Nice=10
 CPUQuota=150%
 MemoryMax=3G

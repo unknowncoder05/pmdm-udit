@@ -1,6 +1,6 @@
 # Emulador Android gratuito
 
-El emulador ejecuta la APK real de Local Burger, sin convertir ni modificar Kotlin.
+El emulador ejecuta la APK real de Escudo 400 (Reto 3), sin convertir Kotlin.
 Android Emulator, Xvfb, x11vnc y noVNC se ejecutan en este servidor; no se contrata
 ningún servicio de emulación externo. La pantalla del dispositivo se transmite
 al navegador mediante WebSocket.
@@ -11,7 +11,8 @@ al navegador mediante WebSocket.
 - Android Emulator y sistema AOSP Android 7.0 / API 24 / x86, compatible con el
   `minSdk = 24` de la app y sin servicios de Google Play.
 - Dispositivo virtual `pmdm-free`, 360 × 800 píxeles, 1 GB de RAM y dos núcleos.
-- `Xvfb :94`, x11vnc en `127.0.0.1:5940` y websockify en `127.0.0.1:6084`.
+- `Xvfb :94` a 1280 × 960, Openbox, x11vnc en `127.0.0.1:5940` y
+  websockify en `127.0.0.1:6084`.
 - Nginx con autenticación HTTP básica para el acceso desde el navegador.
 
 Este host no expone `/dev/kvm`: el arranque utiliza `-accel off` y renderizado
@@ -21,7 +22,7 @@ Antes de arrancar debe haber suficiente disco libre para los datos del dispositi
 
 ## Instalación y ejecución
 
-Los paquetes del sistema necesarios son `xvfb`, `x11vnc`, `novnc` y `websockify`.
+Los paquetes del sistema necesarios son `xvfb`, `openbox`, `x11vnc`, `novnc` y `websockify`.
 Los paquetes del SDK son `emulator` y `system-images;android-24;default;x86`.
 El AVD se guarda en `.emulator/avd`, excluido de Git, junto con los registros.
 
@@ -35,7 +36,7 @@ sudo systemctl status pmdm-emulator
 El servicio está habilitado para arrancar después de reiniciar el host.
 
 La configuración del AVD es local. El lanzador comprueba que exista y abre
-`dist/local-burger.apk` al terminar de arrancar Android. Regenera esa APK mediante
+`dist/escudo400.apk` al terminar de arrancar Android. Regenera esa APK mediante
 Gradle y `scripts/build-web.py` cuando cambie la app.
 
 ```sh
@@ -45,6 +46,8 @@ sudo systemctl stop pmdm-emulator
 Detener el servicio libera los procesos del emulador, pantalla y transmisión.
 Los datos locales del dispositivo se conservan y no se utilizan snapshots.
 La APK se reinstala solamente cuando cambia su contenido o no está instalada.
+El lanzador detiene Local Burger (Reto 2); se utiliza un único emulador.
+`PMDM_APP_PACKAGE` y `PMDM_APP_APK` permiten seleccionar otra APK al ejecutar el script.
 
 ## Acceso web
 
@@ -58,9 +61,15 @@ archivo privado dentro de `.emulator/`. Los puertos VNC y WebSocket escuchan
 exclusivamente en loopback; el acceso público pasa por HTTPS y autenticación.
 Los navegadores conectados comparten el mismo dispositivo Android.
 
-Para comprobar la cuadrícula adaptable, usa los botones de giro de la barra
-lateral del emulador. En vertical se muestra una columna y en horizontal caben
-dos. Las capturas reales están enlazadas en el README del Reto 2.
+En Android 7, pulsa «Activar protección» y acepta usar Escudo 400 como teléfono
+predeterminado. La app puede responder y colgar las llamadas permitidas y rechaza
+las comerciales que no estén en la lista blanca. Las llamadas del emulador se
+inyectan mediante `adb emu gsm call`, sin realizar llamadas a teléfonos reales.
+El README del Reto 3 documenta las pruebas del filtro y del CRUD.
+El escritorio permite ver completo el panel «Extended Controls» del emulador.
+Openbox gestiona el foco del teclado y añade controles de ventana para cerrarlo.
+En la pantalla de una llamada, «Volver a la app» abre de nuevo la pantalla de
+protección y la lista blanca sin finalizar la llamada.
 
 ## Referencias
 

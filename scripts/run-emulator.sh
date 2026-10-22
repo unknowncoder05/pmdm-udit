@@ -4,12 +4,18 @@ set -euo pipefail
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 RUNTIME_DIR="$PROJECT_DIR/.emulator"
 SDK_DIR="${ANDROID_SDK_ROOT:-/home/ubuntu/android-sdk}"
+APP_PACKAGE="${PMDM_APP_PACKAGE:-com.unknowncoder05.escudo400}"
+APP_APK="${PMDM_APP_APK:-$PROJECT_DIR/dist/escudo400.apk}"
 export ANDROID_AVD_HOME="$RUNTIME_DIR/avd"
 export DISPLAY=:94
 mkdir -p "$RUNTIME_DIR"
 chmod 700 "$RUNTIME_DIR"
 if [[ ! -f "$ANDROID_AVD_HOME/pmdm-free.avd/config.ini" ]]; then
     echo 'Falta el dispositivo virtual pmdm-free. Consulta docs/emulador.md.' >&2
+    exit 1
+fi
+if [[ ! -f "$APP_APK" ]]; then
+    echo "Falta la APK de la aplicación: $APP_APK" >&2
     exit 1
 fi
 
@@ -22,12 +28,14 @@ cleanup() {
 trap cleanup EXIT
 trap 'exit 0' TERM INT
 
-Xvfb "$DISPLAY" -screen 0 520x920x24 -nolisten tcp -ac > "$RUNTIME_DIR/display.log" 2>&1 &
+Xvfb "$DISPLAY" -screen 0 1280x960x24 -nolisten tcp -ac > "$RUNTIME_DIR/display.log" 2>&1 &
 service_pids+=("$!")
 for attempt in {1..30}; do
     [[ -S /tmp/.X11-unix/X94 ]] && break
     sleep 1
 done
+openbox --sm-disable > "$RUNTIME_DIR/windows.log" 2>&1 &
+service_pids+=("$!")
 "$SDK_DIR/emulator/emulator" -avd pmdm-free -accel off -gpu swiftshader \
     -no-snapshot -no-boot-anim -no-audio -no-cache -memory 1024 -cores 2 -port 5580 \
     > "$RUNTIME_DIR/android.log" 2>&1 &
@@ -43,20 +51,24 @@ service_pids+=("$!")
     adb_tool="$SDK_DIR/platform-tools/adb"
     for attempt in {1..180}; do
         if [[ "$(timeout 10 "$adb_tool" -s emulator-5580 shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" == 1 ]]; then
+            echo "Android listo. Preparando $APP_PACKAGE."
             "$adb_tool" -s emulator-5580 shell settings put global window_animation_scale 0
             "$adb_tool" -s emulator-5580 shell settings put global transition_animation_scale 0
             "$adb_tool" -s emulator-5580 shell settings put global animator_duration_scale 0
             "$adb_tool" -s emulator-5580 shell input keyevent 82
-            package_digest="$(sha256sum "$PROJECT_DIR/dist/local-burger.apk")"
+            "$adb_tool" -s emulator-5580 shell am force-stop com.unknowncoder05.localburger
+            package_digest="$(sha256sum "$APP_APK")"
             package_digest="${package_digest%% *}"
-            previous_digest="$(cat "$RUNTIME_DIR/installed-apk.sha256" 2>/dev/null || true)"
-            installed_package="$("$adb_tool" -s emulator-5580 shell pm path com.unknowncoder05.localburger 2>/dev/null || true)"
+            digest_file="$RUNTIME_DIR/installed-$APP_PACKAGE.sha256"
+            previous_digest="$(cat "$digest_file" 2>/dev/null || true)"
+            installed_package="$("$adb_tool" -s emulator-5580 shell pm path "$APP_PACKAGE" 2>/dev/null || true)"
             if [[ "$package_digest" != "$previous_digest" || "$installed_package" != package:* ]]; then
-                "$adb_tool" -s emulator-5580 install -r "$PROJECT_DIR/dist/local-burger.apk"
-                printf '%s\n' "$package_digest" > "$RUNTIME_DIR/installed-apk.sha256"
+                echo "Instalando $APP_APK."
+                "$adb_tool" -s emulator-5580 install -r "$APP_APK"
+                printf '%s\n' "$package_digest" > "$digest_file"
             fi
-            "$adb_tool" -s emulator-5580 shell am start -n com.unknowncoder05.localburger/.MainActivity
-            echo 'Local Burger abierta en el emulador.'
+            "$adb_tool" -s emulator-5580 shell am start -n "$APP_PACKAGE/.MainActivity"
+            echo "$APP_PACKAGE abierta en el emulador."
             exit 0
         fi
         sleep 5
