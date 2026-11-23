@@ -62,14 +62,13 @@ exclusivamente en loopback; el acceso público pasa por HTTPS y autenticación.
 Los navegadores conectados comparten el mismo dispositivo Android.
 
 En Android 7, pulsa «Activar protección» y acepta usar Escudo 400 como teléfono
-predeterminado. La app puede responder y colgar las llamadas permitidas y rechaza
-las comerciales que no estén en la lista blanca. Las llamadas del emulador se
+predeterminado. El filtro rechaza las llamadas comerciales que no estén en la lista blanca.
+Las permitidas se responden y finalizan desde el teléfono del sistema. Las llamadas del emulador se
 inyectan mediante `adb emu gsm call`, sin realizar llamadas a teléfonos reales.
 El README del Reto 3 documenta las pruebas del filtro y del CRUD.
 El escritorio permite ver completo el panel «Extended Controls» del emulador.
 Openbox gestiona el foco del teclado y añade controles de ventana para cerrarlo.
-En la pantalla de una llamada, «Volver a la app» abre de nuevo la pantalla de
-protección y la lista blanca sin finalizar la llamada.
+Escudo 400 no muestra una interfaz propia de llamada ni un campo para marcar números.
 
 ## Referencias
 

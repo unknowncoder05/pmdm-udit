@@ -12,14 +12,13 @@ Compose y las API de telefonía de Android, con almacenamiento local en SQLite.
 - Validación de teléfonos y detección de duplicados aunque tengan formatos distintos.
 - Interruptor para pausar y reanudar el bloqueo.
 - Actividad con las últimas 100 llamadas filtradas y el motivo de cada decisión.
-- Controles para responder, rechazar y colgar las llamadas permitidas en Android 7–9.
+- Las llamadas permitidas se responden y finalizan en la pantalla de teléfono del sistema.
 - Funcionamiento sin internet, servidores ni suscripciones.
 
 Los números de la lista blanca tienen prioridad sobre el bloqueo. El filtro
 compara el número completo: no bloquea un teléfono por acabar en 400 ni por
 contener esos dígitos en medio.
-Durante una llamada, **Volver a la app** permite consultar la protección y editar
-la lista blanca sin colgar. **Volver a la llamada** recupera sus controles.
+Escudo 400 no abre una pantalla propia al recibir llamadas permitidas.
 
 | Número entrante | Lista blanca | Resultado con protección activa |
 | --- | --- | --- |
@@ -43,7 +42,9 @@ la lista blanca sin colgar. **Volver a la llamada** recupera sus controles.
 
 El estado **Protección activa** requiere que Android haya seleccionado la app.
 Cerrar su pantalla no desactiva el filtro: Android llama a `CallScreeningService`
-cuando necesita evaluar una llamada. No se mantiene un proceso de sondeo.
+cuando necesita evaluar una llamada, incluso con la pantalla de Escudo 400 cerrada
+o después de quitarla de recientes. No se mantiene un proceso de sondeo.
+Si se fuerza la detención desde Ajustes, hay que abrir de nuevo la app.
 Las llamadas ocultas y las que Android no entrega al servicio no se evalúan.
 El filtro solo cubre llamadas telefónicas, no llamadas de WhatsApp u otras apps.
 
@@ -83,14 +84,10 @@ Lista blanca durante la prueba de alta de un número ficticio:
 
 ![Lista blanca](img/capturas/lista-blanca.png)
 
-Controles de una llamada admitida durante las pruebas, con acceso para volver a la app:
-
-![Controles de llamada](img/capturas/llamada.png)
-
 ## Pruebas
 
 Verificados en Android 7: rechazo de una llamada 400, permiso de ese mismo
-número tras añadirlo a la lista blanca, respuesta y finalización desde la app.
+número tras añadirlo a la lista blanca, respuesta y finalización desde el teléfono del sistema.
 La compilación, las cinco pruebas unitarias y el análisis lint pasan sin errores.
 
 Las pruebas unitarias cubren los formatos de teléfono, la prioridad de las
@@ -100,7 +97,20 @@ persistencia al cerrar y reabrir la base de datos.
 
 Desde el navegador, abrir **… → Phone**, escribir el número en **From** y pulsar
 **Call device**. Para regresar al teléfono, cerrar la ventana **Extended Controls**
-con su X. La pantalla de llamada incluye **Volver a la app**.
+con su X. Las llamadas permitidas muestran la pantalla de teléfono del sistema.
+
+Desde la raíz del repositorio también puedes usar Make:
+
+```sh
+make call                         # Llamada de 400123456 (bloqueada con protección activa)
+make call NUMBER=600123456         # Llamada de otro número
+make call-cancel NUMBER=600123456  # Finalizar esa llamada
+make call-list                    # Consultar llamadas
+```
+
+El dispositivo por defecto es `emulator-5580`. Puedes cambiarlo con
+`DEVICE=emulator-5554` y seleccionar otro ejecutable con `ADB=/ruta/a/adb`.
+Estas órdenes requieren que el emulador esté encendido y disponible en `adb devices`.
 
 Para introducir una llamada en el emulador, con el filtro activado:
 
@@ -128,4 +138,4 @@ esa versión antes de distribuir la app.
 - `CallStore.kt`: lista blanca y actividad en SQLite.
 - `MarketingScreeningService.kt`: respuesta de bloqueo o permiso a Android.
 - `MainActivity.kt`: protección, CRUD y actividad.
-- `PhoneService.kt`: interfaz de llamadas para Android 7–9.
+- `PhoneService.kt`: servicio sin interfaz para la compatibilidad del filtro con Android 7–9.

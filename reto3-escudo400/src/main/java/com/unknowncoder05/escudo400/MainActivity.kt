@@ -5,7 +5,6 @@ import android.app.role.RoleManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteConstraintException
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.telecom.TelecomManager
@@ -73,12 +72,6 @@ class MainActivity : ComponentActivity() {
         catch (_: android.content.ActivityNotFoundException) { message("No se puede activar el servicio en este dispositivo.") }
     }
 
-    fun placeCall(number: String) {
-        try {
-            getSystemService(TelecomManager::class.java).placeCall(Uri.fromParts("tel", number, null), Bundle())
-        } catch (_: SecurityException) { message("Necesitas permitir llamadas y seleccionar Escudo 400 como teléfono.") }
-    }
-
     fun message(text: String) { Toast.makeText(this, text, Toast.LENGTH_LONG).show() }
 }
 
@@ -107,10 +100,6 @@ private fun EscudoApp(activity: MainActivity, resumed: Int) {
                 Tab(selected = tab == index, onClick = { tab = index }, text = { Text(label) })
             }
         }
-        if (LiveCalls.calls.isNotEmpty()) TextButton(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = { activity.startActivity(Intent(activity, CallActivity::class.java)) }
-        ) { Text("Volver a la llamada") }
         when (tab) {
             0 -> Protection(activity, store, selected, allowed.size, events, resumed)
             1 -> LazyColumn(contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -169,10 +158,6 @@ private fun Protection(activity: MainActivity, store: CallStore, selected: Boole
         ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
     }
     val contactsRequest = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { permissionRevision++ }
-    var dial by rememberSaveable { mutableStateOf(activity.intent.data?.schemeSpecificPart.orEmpty()) }
-    val phoneRequest = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
-        if (it) activity.placeCall(dial) else activity.message("Permiso para realizar llamadas denegado.")
-    }
     LazyColumn(contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
         item {
             Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color(0xFFD7EFE7))) {
@@ -180,7 +165,7 @@ private fun Protection(activity: MainActivity, store: CallStore, selected: Boole
                     Text(when { !selected -> "Falta activar el filtro"; store.enabled -> "Protección activa"; else -> "Protección pausada" },
                         fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Navy)
                     Text(if (selected) "Android ha seleccionado Escudo 400 para filtrar las llamadas." else
-                        if (Build.VERSION.SDK_INT < 29) "Selecciona Escudo 400 como aplicación de teléfono para activar el bloqueo en Android 7–9."
+                        if (Build.VERSION.SDK_INT < 29) "Selecciona Escudo 400 como aplicación de teléfono para activar el filtro en Android 7–9. Las llamadas permitidas usan la pantalla de teléfono del sistema."
                         else "Selecciona Escudo 400 como aplicación de filtrado de llamadas.")
                     if (!selected) Button(onClick = activity::requestActivation) { Text("Activar protección") }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -200,16 +185,7 @@ private fun Protection(activity: MainActivity, store: CallStore, selected: Boole
             Text("Android puede omitirlos del filtrado sin este permiso. Permite el acceso para incluir también los contactos; no se importan ni se envían a ningún servidor.", Modifier.padding(top = 8.dp))
             OutlinedButton(onClick = { contactsRequest.launch(Manifest.permission.READ_CONTACTS) }) { Text("Incluir contactos en el filtro") }
         }
-        if (Build.VERSION.SDK_INT < 29 && selected) item {
-            Text("Teléfono", fontWeight = FontWeight.Bold, fontSize = 20.sp, color = Navy)
-            OutlinedTextField(value = dial, onValueChange = { dial = it.take(40) }, label = { Text("Número para llamar") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone), singleLine = true,
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp))
-            Button(enabled = dial.isNotBlank(), onClick = {
-                if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) activity.placeCall(dial)
-                else phoneRequest.launch(Manifest.permission.CALL_PHONE)
-            }) { Text("Llamar") }
-        }
+
     }
 }
 
