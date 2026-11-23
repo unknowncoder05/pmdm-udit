@@ -192,3 +192,4 @@ deploy/*.candidate
 
 # Estado local del emulador Android
 .emulator/
+!/uditflix/lib/

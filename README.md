@@ -12,4 +12,4 @@ historial de decisiones y almacenamiento local.
 
 ## UDITflix
 
-[Catálogo Flutter de vídeos, cómics y juegos · ejecución y pruebas](uditflix/README.md)
+[Catálogo Flutter de películas y series con UDIT Arcade · ejecución y pruebas](uditflix/README.md)

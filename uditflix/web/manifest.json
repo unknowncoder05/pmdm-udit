@@ -5,7 +5,7 @@
     "display": "standalone",
     "background_color": "#111214",
     "theme_color": "#111214",
-    "description": "Catálogo de vídeos, cómics y juegos de UDIT.",
+    "description": "Catálogo de películas y series con UDIT Arcade.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

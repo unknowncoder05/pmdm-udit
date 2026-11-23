@@ -1,5 +1,5 @@
 name: uditflix
-description: "Catálogo de vídeos, cómics y juegos de UDIT."
+description: "Catálogo de películas y series con UDIT Arcade."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  video_player: ^2.9.5
   flutter:
     sdk: flutter
 
@@ -53,6 +54,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/cubiertas/
+    - assets/video/uditflix.mp4
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
